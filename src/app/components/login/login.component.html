@@ -1,0 +1,27 @@
+<form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+    <div>
+        <label for="username">Nom d'utilisateur</label>
+        <input type="text" id="username" name="username" required [(ngModel)]="username">
+    </div>
+
+    <div>
+        <label for="password">Mot de passe</label>
+        <input [type]="passwordFieldType" id="password" name="password" required [(ngModel)]="password"
+            (input)="checkPassword()">
+        <button type="button" (click)="togglePasswordVisibility()">
+            {{ passwordFieldType === 'password' ? 'Afficher' : 'Masquer' }}
+        </button>
+    </div>
+    <button type="button" (click)="generatePassword()">Générer un mot de passe</button>
+
+    <app-password-rules [password]="password"></app-password-rules>
+
+    <button [disabled]="!isPasswordValid" class="submit-button">
+        <span *ngIf="!isPasswordValid">&#128274;</span> <!-- Cadenas fermé -->
+        <span *ngIf="isPasswordValid">Soumettre</span>
+    </button>
+
+    <div class="password-strength">
+        <div [ngClass]="passwordStrength">{{ passwordStrength | uppercase }}</div>
+    </div>
+</form>
